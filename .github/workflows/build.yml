@@ -1,0 +1,31 @@
+name: Build image
+
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+env:
+  PHP_EXTENSION_INSTALL_VERSION: 'latest'
+  COMPOSER_VERSION: 'latest'
+jobs:
+  build:
+    name: Build PHP ${{ matrix.php-version }}
+    runs-on: '${{ matrix.os }}'
+    env:
+      ALPINE_VERSION: '${{ matrix.alpine-version }}'
+      PHP_CLI_VERSION: '${{ matrix.php-version }}-cli-alpine'
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        php-version: [ '7.4', '8.0', '8.1' ]
+      max-parallel: 8
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build
+        run: docker-compose build webman
+      - name: Login
+        run: docker login --username krisss -p ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
+      - name: Push
+        run: docker push krisss/docker-webman:${PHP_CLI_VERSION}
