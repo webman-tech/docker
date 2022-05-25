@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  webman:
+    image: "krisss/docker-webman:${PHP_CLI_VERSION}"
+    build:
+      context: "./"
+      args:
+        PHP_CLI_VERSION: ${PHP_CLI_VERSION}
+        PHP_EXTENSION_INSTALL_VERSION: ${PHP_EXTENSION_INSTALL_VERSION}
+        COMPOSER_VERSION: ${COMPOSER_VERSION}
