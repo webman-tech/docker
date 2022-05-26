@@ -1,0 +1,10 @@
+# 用于开发环境
+version: "3.7"
+
+services:
+  webman:
+    image: krisss/docker-webman:${DOCKER_WEBMAN_VERSION:-7.4-cli-alpine}
+    ports:
+      - "${DOCKER_WEBMAN_PORT:-8787}:8787"
+    volumes:
+      - .:/app

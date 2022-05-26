@@ -1,21 +1,37 @@
 # webman docker
 
+## 简介
+
+将 docker 用于 webman 的开发和生产部署
+
+### 镜像地址和 tag
+
 [docker hub](https://hub.docker.com/r/krisss/docker-webman)
 
 - krisss/docker-webman:7.4-cli-alpine
 - krisss/docker-webman:8.0-cli-alpine
 - krisss/docker-webman:8.1-cli-alpine
 
-会通过 github actions 动态更新 php 的小版本，镜像 tag 名不变
+> 此镜像会通过 github actions 动态更新 php 的小版本，镜像 tag 名不变
 
-## 镜像中的组件
+### 镜像中的组件
 
 - [php](https://hub.docker.com/_/php): extension 包含：bcmath、event、gd、mysqli、pdo_mysql、opcache、pcntl、redis、sockets、zip
 - [composer](https://getcomposer.org/)
 - [install-php-extensions](https://github.com/mlocati/docker-php-extension-installer)
 - [supervisor](http://supervisord.org/)
 
-## 当开发环境使用：目前代码未建立
+## 安装
+
+```bash
+composer require kriss/webman-docker
+```
+
+会在项目根目录下提供 `Dockerfile` 用于构建镜像，提供 `docker-compose.yml` 用于开发
+
+## 使用
+
+### 当开发环境使用：目前代码未建立
 
 启动镜像
 
@@ -44,7 +60,7 @@ php start.php start
 
 访问 http://localhost:8787 即可
 
-## 当开发环境使用：已有 webman 代码
+### 当开发环境使用：已有 webman 代码
 
 在项目下自建 `docker-compose.yml`，参考例子如下：
 
@@ -69,7 +85,7 @@ docker-compose up
 访问 http://localhost:8787 即可
 
 
-## 打包项目成镜像
+### 打包项目成镜像
 
 在项目下自建 `Dockerfile`，参考例子如下：
 
