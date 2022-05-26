@@ -120,3 +120,12 @@ docker run --rm -p 8787:8787 {image-name}
 ```
 
 访问 http://localhost:8787 即可
+
+
+## For Developer
+
+修改 Dockerfile 后测试方式：
+
+1. 新建 `.env` 文件，其中配置 `docker-compose.yml` 中的 env 变量
+2. 执行build：`docker-compose build webman`
+3. 本机测试：`docker run --rm -it {ImageName}:{ImageTag} /bin/sh`

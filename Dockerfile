@@ -8,7 +8,7 @@ FROM mlocati/php-extension-installer:$PHP_EXTENSION_INSTALL_VERSION AS php-exten
 FROM php:$PHP_CLI_VERSION
 
 # 系统依赖安装
-RUN apk add --no-cache supervisor
+RUN apk add --no-cache supervisor unzip
 
 # PHP 扩展安装
 # install-php-extensions https://github.com/mlocati/docker-php-extension-installer
