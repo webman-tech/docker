@@ -1,6 +1,21 @@
 # webman docker
 
-# 当开发环境使用
+[docker hub](https://hub.docker.com/r/krisss/docker-webman)
+
+- krisss/docker-webman:7.4-cli-alpine
+- krisss/docker-webman:8.0-cli-alpine
+- krisss/docker-webman:8.1-cli-alpine
+
+会通过 github actions 动态更新 php 的小版本，镜像 tag 名不变
+
+## 镜像中的组件
+
+- [php](https://hub.docker.com/_/php): extension 包含：bcmath、event、gd、mysqli、pdo_mysql、opcache、pcntl、redis、sockets、zip
+- [composer](https://getcomposer.org/)
+- [install-php-extensions](https://github.com/mlocati/docker-php-extension-installer)
+- [supervisor](http://supervisord.org/)
+
+## 当开发环境使用
 
 启动镜像
 
@@ -11,7 +26,7 @@ docker run --rm --name webman \
  -it \
  --privileged -u root \
  --entrypoint /bin/sh \
- kriss/docker-webman
+ krisss/docker-webman:7.4-cli-alpine
 ```
 
 创建项目

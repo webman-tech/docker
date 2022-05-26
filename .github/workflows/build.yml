@@ -1,10 +1,10 @@
 name: Build image
 
-on: 
+on:
+  schedule:
+    - cron: '0 1 * * 0'
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags: [ 'v*.*.*' ]
 env:
   PHP_EXTENSION_INSTALL_VERSION: 'latest'
   COMPOSER_VERSION: 'latest'
