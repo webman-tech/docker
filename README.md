@@ -15,7 +15,7 @@
 - [install-php-extensions](https://github.com/mlocati/docker-php-extension-installer)
 - [supervisor](http://supervisord.org/)
 
-## 当开发环境使用
+## 当开发环境使用：目前代码未建立
 
 启动镜像
 
@@ -40,6 +40,30 @@ composer create-project workerman/webman
 ```bash
 cd webman
 php start.php start
+```
+
+访问 http://localhost:8787 即可
+
+## 当开发环境使用：已有 webman 代码
+
+在项目下自建 `docker-compose.yml`，参考例子如下：
+
+```yml
+version: "3.7"
+
+services:
+  webman:
+    image: krisss/docker-webman:${DOCKER_WEBMAN_VERSION:-7.4-cli-alpine}
+    ports:
+      - "${DOCKER_WEBMAN_PORT:-8787}:8787"
+    volumes:
+      - .:/app
+```
+
+启动：
+
+```bash
+docker-compose up
 ```
 
 访问 http://localhost:8787 即可
