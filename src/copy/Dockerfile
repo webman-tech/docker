@@ -5,6 +5,7 @@ ARG WEBMAN_DOCKER_VERSION=7.4-cli-alpine
 FROM krisss/docker-webman:$WEBMAN_DOCKER_VERSION
 
 # 增加额外的扩展
+#RUN apk add --no-cache git
 #RUN install-php-extensions imagick
 
 # 设置配置文件
