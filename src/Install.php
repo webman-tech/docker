@@ -11,6 +11,7 @@ class Install
     protected static $pathRelation = array (
   'copy/Dockerfile' => 'Dockerfile',
   'copy/docker-compose.yml' => 'docker-compose.yml',
+  'copy/.dockerignore' => '.dockerignore',
 );
 
     /**
