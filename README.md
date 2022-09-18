@@ -24,7 +24,7 @@
 ## 安装
 
 ```bash
-composer require kriss/webman-docker
+composer require webman-tech/docker
 ```
 
 会在项目根目录下提供 `Dockerfile` 用于构建镜像，提供 `docker-compose.yml` 用于开发

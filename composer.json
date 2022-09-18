@@ -1,5 +1,5 @@
 {
-  "name": "kriss/webman-docker",
+  "name": "webman-tech/docker",
   "type": "library",
   "license": "MIT",
   "description": "docker for webman app",
