@@ -16,7 +16,7 @@ FROM krisss/docker-webman:$WEBMAN_DOCKER_VERSION
 #COPY environments/docker/my_php.ini "$PHP_INI_DIR/conf.d/my_php.ini"
 # 自定义 supervisor 配置，如果需要的话
 # 覆盖镜像自带的
-#COPY environments/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+#COPY environments/docker/supervisord.conf /etc/supervisor/supervisord.conf
 # 扩展额外的
 #COPY environments/docker/my_supervisord.conf /etc/supervisor/conf.d/my_supervisord.conf
 
