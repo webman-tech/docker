@@ -1,10 +1,14 @@
-name: Build image
+name: Build Docker Image
 
 on:
   schedule:
     - cron: '0 1 * * 0'
   push:
     tags: [ 'v*.*.*' ]
+    paths:
+      - 'Dockerfile'
+      - 'config/**'
+
 env:
   PHP_EXTENSION_INSTALL_VERSION: 'latest'
   COMPOSER_VERSION: 'latest'
