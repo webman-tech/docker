@@ -11,6 +11,7 @@
 - krisss/docker-webman:7.4-cli-alpine
 - krisss/docker-webman:8.0-cli-alpine
 - krisss/docker-webman:8.1-cli-alpine
+- krisss/docker-webman:8.2-cli-alpine
 
 > 此镜像会通过 github actions 动态更新 php 的小版本，镜像 tag 名不变
 

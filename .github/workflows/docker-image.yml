@@ -18,11 +18,11 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '7.4', '8.0', '8.1' ]
+        php-version: [ '7.4', '8.0', '8.1', '8.2' ]
       max-parallel: 8
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build
         run: docker-compose build webman
       - name: Login
