@@ -5,9 +5,6 @@ on:
     - cron: '0 1 * * 0'
   push:
     tags: [ 'v*.*.*' ]
-    paths:
-      - 'Dockerfile'
-      - 'config/**'
 
 env:
   PHP_EXTENSION_INSTALL_VERSION: 'latest'
