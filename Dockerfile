@@ -5,13 +5,13 @@ ARG PHP_EXTENSION_INSTALL_VERSION=latest
 # https://hub.docker.com/r/composer/composer
 ARG COMPOSER_VERSION=latest
 
-# 开始构建
-FROM php:$PHP_CLI_VERSION AS build
-
 # install-php-extensions
 FROM mlocati/php-extension-installer:$PHP_EXTENSION_INSTALL_VERSION AS php-extension-installer
 # composer
 FROM composer/composer:$COMPOSER_VERSION AS composer
+
+# 开始构建
+FROM php:$PHP_CLI_VERSION
 
 # 系统依赖安装
 COPY --from=php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
