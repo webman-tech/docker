@@ -37,7 +37,7 @@ RUN install-php-extensions \
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY config/php.ini "$PHP_INI_DIR/conf.d/app.ini"
 # supervisor
-COPY config/supervisord.conf /etc/supervisor/supervisord.conf
+COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 设置项目目录
 RUN mkdir -p /app
@@ -47,4 +47,4 @@ WORKDIR /app
 EXPOSE 8787
 
 # 启动脚本
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
