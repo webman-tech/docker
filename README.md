@@ -15,6 +15,8 @@
 
 > 此镜像会通过 github actions 动态更新 php 的小版本，镜像 tag 名不变
 
+> 2.3.0 之后增加类似 `7.4-cli-alpine-v2.3.0` 形式的镜像版本，用于固定一个在发布版本时当前镜像中的各个组件版本（求稳可以用这种版本的镜像）
+
 ### 镜像中的组件
 
 - [php](https://hub.docker.com/_/php): extension 包含：bcmath、event、gd、mysqli、pdo_mysql、opcache、pcntl、redis、sockets、zip
