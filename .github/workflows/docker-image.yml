@@ -33,11 +33,11 @@ jobs:
         # https://github.com/docker/build-push-action
         uses: docker/build-push-action@v4
         with:
-          build-args:
-            PHP_CLI_VERSION: ${{ env.PHP_CLI_VERSION }}
-            PHP_EXTENSION_INSTALL_VERSION: ${{ env.PHP_EXTENSION_INSTALL_VERSION }}
-            COMPOSER_VERSION: ${{ env.COMPOSER_VERSION }}
+          build-args: |
+            PHP_CLI_VERSION=${{ env.PHP_CLI_VERSION }}
+            PHP_EXTENSION_INSTALL_VERSION=${{ env.PHP_EXTENSION_INSTALL_VERSION }}
+            COMPOSER_VERSION=${{ env.COMPOSER_VERSION }}
           push: true
-          tags:
+          tags: |
             ${{ secrets.DOCKER_USERNAME }}/docker-webman:${{ env.PHP_CLI_VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/docker-webman:${{ env.PHP_CLI_VERSION }}${{ github.ref_type == 'tag' && format('-{0}', github.ref_name) || '' }}
