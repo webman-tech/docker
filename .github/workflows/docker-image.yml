@@ -9,24 +9,35 @@ on:
 env:
   PHP_EXTENSION_INSTALL_VERSION: 'latest'
   COMPOSER_VERSION: 'latest'
+
 jobs:
   build:
     name: Build PHP ${{ matrix.php-version }}
-    runs-on: '${{ matrix.os }}'
+    runs-on: ${{ matrix.os }}
     env:
-      ALPINE_VERSION: '${{ matrix.alpine-version }}'
-      PHP_CLI_VERSION: '${{ matrix.php-version }}-cli-alpine'
+      PHP_CLI_VERSION: ${{ matrix.php-version }}-cli-alpine
     strategy:
       matrix:
         os: [ ubuntu-latest ]
         php-version: [ '7.4', '8.0', '8.1', '8.2' ]
       max-parallel: 8
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Build
-        run: docker-compose build webman
-      - name: Login
-        run: docker login --username krisss -p ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
-      - name: Push
-        run: docker push krisss/docker-webman:${PHP_CLI_VERSION}
+      - name: Login to Docker Hub
+        # https://github.com/docker/login-action#docker-hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
+
+      - name: Build and push
+        # https://github.com/docker/build-push-action
+        uses: docker/build-push-action@v4
+        with:
+          build-args:
+            PHP_CLI_VERSION: ${{ env.PHP_CLI_VERSION }}
+            PHP_EXTENSION_INSTALL_VERSION: ${{ env.PHP_EXTENSION_INSTALL_VERSION }}
+            COMPOSER_VERSION: ${{ env.COMPOSER_VERSION }}
+          push: true
+          tags:
+            ${{ secrets.DOCKER_USERNAME }}/docker-webman:${{ env.PHP_CLI_VERSION }}
+            ${{ secrets.DOCKER_USERNAME }}/docker-webman:${{ env.PHP_CLI_VERSION }}${{ github.ref_type == 'tag' && format('-{0}', github.ref_name) || '' }}
