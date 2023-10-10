@@ -1,0 +1,35 @@
+name: Keep Actions Running
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        with:
+          format: "YYYY/MM/DD HH:mm:ss.SSS"
+        id: current-time
+
+      - name: Update Json File
+        uses: restackio/update-json-file-action@v2.0
+        with:
+          file: composer.json
+          fields: "{\"config.github-actions-date\": \"${{ steps.current-time.outputs.time }}\"}"
+
+      - name: Commit updated CHANGELOG
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: keep actions running
+          file_pattern: composer.json
