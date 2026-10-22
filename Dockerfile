@@ -18,6 +18,28 @@ COPY --from=php-extension-installer /usr/bin/install-php-extensions /usr/local/b
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN apk add --no-cache supervisor unzip
 
+# 处理 PEAR 版本问题：https://github.com/webman-tech/docker/actions/runs/39712721745
+# 将 PEAR 升级到最新版
+# 仅 PHP < 8.2 需要：7.4/8.0/8.1 这些 EOL 镜像冻结的旧 PEAR（<1.10.17）不支持 HTTP chunked，
+# 而 pecl.php.net（BunnyCDN）对条件请求返回 chunked 响应，旧 PEAR 把 chunked 流当 XML
+ARG PHP_CLI_VERSION
+RUN set -eux; \
+    case "${PHP_CLI_VERSION%%-*}" in \
+        7*|8.0*|8.1*) \
+            latest="$(curl -sSI -o /dev/null -w '%{redirect_url}' https://github.com/pear/pear-core/releases/latest)"; \
+            ver="${latest##*/}"; \
+            ver="${ver#v}"; \
+            curl -sSLf "https://pear.php.net/get/PEAR-${ver}.tgz" -o /tmp/PEAR.tgz; \
+            tar xzf /tmp/PEAR.tgz -C /tmp; \
+            cp "/tmp/PEAR-${ver}/PEAR.php" /usr/local/lib/php/PEAR.php; \
+            cp -r "/tmp/PEAR-${ver}/PEAR/." /usr/local/lib/php/PEAR/; \
+            rm -rf "/tmp/PEAR-${ver}" /tmp/PEAR.tgz \
+            ;; \
+        *) \
+            echo "PEAR upgrade skipped: PHP >= 8.2 ships PEAR 1.10.18 (chunked support)" \
+            ;; \
+    esac
+
 # PHP 扩展安装
 # https://github.com/mlocati/docker-php-extension-installer#supported-php-extensions
 RUN install-php-extensions \
