@@ -8,15 +8,19 @@
 
 [docker hub](https://hub.docker.com/r/krisss/docker-webman)
 
-- krisss/docker-webman:7.4-cli-alpine
-- krisss/docker-webman:8.0-cli-alpine
-- krisss/docker-webman:8.1-cli-alpine
+- krisss/docker-webman:7.4-cli-alpine ⚠️ 风险版本
+- krisss/docker-webman:8.0-cli-alpine ⚠️ 风险版本
+- krisss/docker-webman:8.1-cli-alpine ⚠️ 风险版本
 - krisss/docker-webman:8.2-cli-alpine
 - krisss/docker-webman:8.3-cli-alpine
+- krisss/docker-webman:8.4-cli-alpine
+- krisss/docker-webman:8.5-cli-alpine
 
 > 此镜像会通过 github actions 动态更新 php 的小版本，镜像 tag 名不变
 
 > 2.3.0 之后增加类似 `7.4-cli-alpine-v2.3.0` 形式的镜像版本，用于固定一个在发布版本时当前镜像中的各个组件版本（求稳可以用这种版本的镜像）
+
+> ⚠️ **7.4 / 8.0 / 8.1 为风险版本**：2026-10-21 PHP 官方修复了两个可被未授权远程利用的严重漏洞（CVE-2026-109618、CVE-2026-109619，CVSS 9.2），修复版本为 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 及以上。这三个大版本已停止官方维护（EOL），不会再获得修复，对应镜像将长期停留在含漏洞的 PHP 版本，仅建议遗留项目临时兼容使用，请尽快升级到 8.2 及以上版本。
 
 ### 镜像中的组件
 
@@ -149,3 +153,13 @@ docker run --rm -p 8787:8787 {image-name}
 1. 新建 `.env` 文件，其中配置 `docker-compose.yml` 中的 env 变量
 2. 执行build：`docker-compose build webman`
 3. 本机测试：`docker run --rm -it {ImageName}:{ImageTag} /bin/sh`
+
+### 手动触发镜像构建
+
+除每周定时构建和打 `v*.*.*` tag 自动构建外，支持在 GitHub 上手动触发：
+
+1. 进入仓库 **Actions → Build Docker Image → Run workflow**
+2. 选择要构建的 PHP 版本（`all` 为全部版本，也可单独选择某个版本）
+3. 构建并推送到 Docker Hub，tag 规则与定时构建一致
+
+PHP 官方发布安全更新后，可手动触发以及时获取修复了新版本的镜像。

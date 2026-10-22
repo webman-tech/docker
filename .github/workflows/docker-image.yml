@@ -5,6 +5,22 @@ on:
     - cron: '0 1 * * 0'
   push:
     tags: [ 'v*.*.*' ]
+  workflow_dispatch:
+    inputs:
+      php-version:
+        description: '要构建的 PHP 版本，all 表示全部版本'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
 
 env:
   PHP_EXTENSION_INSTALL_VERSION: 'latest'
@@ -12,16 +28,23 @@ env:
 
 jobs:
   build:
-    name: Build PHP ${{ matrix.php-version }}
+    name: Build PHP ${{ matrix.php-version }}${{ contains(fromJSON('["7.4", "8.0", "8.1"]'), matrix.php-version) && ' ⚠️ 风险版本' || '' }}
     runs-on: ${{ matrix.os }}
     env:
       PHP_CLI_VERSION: ${{ matrix.php-version }}-cli-alpine
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php-version: ${{ (github.event_name == 'workflow_dispatch' && inputs.php-version != 'all') && fromJSON(format('["{0}"]', inputs.php-version)) || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+      # 各版本独立出结果，避免单个版本失败连带取消其他版本
+      fail-fast: false
       max-parallel: 8
     steps:
+      - name: Warn risky PHP version
+        if: contains(fromJSON('["7.4", "8.0", "8.1"]'), matrix.php-version)
+        run: |
+          echo "::warning::PHP ${{ matrix.php-version }} 已 EOL，受 CVE-2026-109618/109619 影响且无官方修复，仅建议遗留项目兼容使用，请升级 8.2+（详见 README）"
+
       - name: Login to Docker Hub
         # https://github.com/docker/login-action#docker-hub
         uses: docker/login-action@v2
